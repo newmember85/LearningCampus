@@ -1,0 +1,80 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #252525;
+  background-image: url("https://www.teahub.io/photos/full/244-2443764_orange-paint-texture-paint-strokes-orange-background-yellow.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  scroll-behavior: smooth;
+}
+
+::-moz-selection { /* for Firefox */
+  color: black;
+  background: orange;
+}
+
+::selection {
+  color: black;
+  background: orange;
+}
+
+#root, .content{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+ul, li{
+  margin:0;
+  padding: 0;
+  list-style: none;
+  list-style-type: none;
+}
+
+a, a:hover{
+  text-decoration: none;
+  color: black;
+}
+
+h1, h2, p, figure {
+  margin: 0;
+  padding: 0;
+}
+
+button, input{
+  outline: none;
+  border: none;
+  background-color: white;
+}
+
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #252525;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #252525;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb
+{
+	background-color: gray;
+	border: 2px solid gray;
+  border-radius: 5px;
+}
+
+@import url(login.css);
+@import url(navigation.css);
+@import url(course-list.css);
+@import url(course.css);
+@import url(notifications.css);

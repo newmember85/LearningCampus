@@ -1,0 +1,1909 @@
+openapi: 3.0.3
+
+info:
+  title: LearningCampus
+  description: Learning Management System API.
+  version: 0.1.0
+  
+servers:
+- url: http://localhost:8080  
+  description: Localhost
+  
+  
+paths:
+  "/auth/login":
+    post:
+      tags: ["AUTH"]
+      summary: Returns JWT tokens.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Username of the Student
+                password:
+                  type: string
+                  description: Passwort of the Stundent
+              example:
+                username: "MuMa"
+                password: "1234"
+        required: true
+      responses:
+        "200":
+          description: JWT Tokens created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token: 
+                    type : string
+                  refreshToken:
+                    type : string
+        "400":
+          description: Username or password does not match
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                  message:
+                    type: string
+          
+  "/auth/token":
+    post:
+      tags: ["AUTH"]
+      summary: Returns New JWT Access Token.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: Refresh Token
+        required: true
+      responses:
+        "200":
+          description: New JWT Access Token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token: 
+                    type : string
+                    
+  "/api/faculty":
+    get:
+      tags: ["FACULTY"]
+      summary: Returns all faculties.
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type : number
+                  name:
+                    type: string
+    post:
+      tags: ["FACULTY"]
+      summary: Create new Faculty
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Faculty Name
+              example:
+                name: "Informatik"
+        required: true
+      responses:
+        "201":
+          description: Faculty created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name: 
+                    type : string
+        "409":
+          description: Faculty exists already 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+  "/api/faculty/{faculty}":
+    parameters:
+    - name: faculty 
+      in: path
+      description: Name of the Faculty
+      required: true
+      schema:
+        type: string
+        example: "Informatik"
+    get:
+      tags: ["FACULTY"]
+      summary: Get all DegreeProgrammes from this Faculty
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: number
+                  name:
+                    type : string
+                  abbreviation:
+                    type : string
+                  semester_count:
+                    type : number
+                  fakulty_id:
+                    type : number
+                
+        "404":
+          description: Has no valid Faculty Name
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+    put:
+      tags: ["FACULTY"]
+      summary: Update Faculty.
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: New Faculty Name
+              example:
+                name: "Informatik_the_second"
+        required: true
+      responses:
+        "200":
+          description: Update Successfull
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name: 
+                    type : string
+        "400":
+          description: Update failed
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Faculty not found or already exists
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags: ["FACULTY"]
+      summary: Delete Faculty.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Faculty deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                  message:
+                    type: string
+        "503":
+          description: Failed to delete
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Faculty not found
+          content:
+            application/json:
+              schema:
+                type: object
+  "/api/degreeProgrammes/all":
+   get:
+      tags: ["DegreeProgramme"]
+      summary: Get all DegreeProgrammes
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: number
+                  name:
+                    type : string
+                  abbreviation:
+                    type : string
+                  semester_count:
+                    type : number
+                  fakulty_id:
+                    type : number
+                
+        "400":
+          description: Post not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+  "/api/degreeProgrammes/":
+   get:
+      tags: ["DegreeProgramme"]
+      summary: Get my DegreeProgramme
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: number
+                  name:
+                    type : string
+                  abbreviation:
+                    type : string
+                  semester_count:
+                    type : number
+                  fakulty_id:
+                    type : number
+                
+        "400":
+          description: Post not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+   post:
+     tags: ["DegreeProgramme"]
+     summary: Create new DegreeProgramme
+     requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  name:
+                    type : string
+                  abbreviation:
+                    type : string
+                  semester_count:
+                    type : number
+                  splan_id:
+                    type: number
+                  faculty:
+                    type : string
+              example:
+               name: "Wirtschaftsinformatik"
+               abbreviation: "WIF"
+               semester_count: 7
+               splan_id: 34
+               faculty: "Informatik"
+        required: true
+     responses:
+        "201":
+          description: DegreeProgramme Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type : string
+                  abbreviation:
+                    type : string
+                  semester_count:
+                    type : number
+                  fakulty_id:
+                    type : number
+
+        "409":
+          description: DegreeProgramme already exists or has no valid Faculty
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+  "/api/degreeProgrammes/{name}":
+    parameters:
+    - name: name 
+      in: path
+      description: Name of the DegreeProgramme
+      required: true
+      schema:
+        type: string
+        example: "Informatik"
+    put:
+      tags: ["DegreeProgramme"]
+      summary: Update DegreeProgramme.
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                next_name:
+                  type: string
+                abbreviation:
+                  type: string
+                  description: New DegreeProgramme abbreviation
+                semester_count:
+                  type: number
+                  description: New Semester count for DegreeProgramme
+                splan_id:
+                  type: number
+                faculty:
+                  type: string
+                  description: New Faculty for DegreeProgramme
+                
+        required: true
+      responses:
+        "200":
+          description: Update Successfull
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                 abbreviation:
+                  type: string
+                 semester_count:
+                  type: number
+                 faculty:
+                  type: string
+        "400":
+          description: Update failed
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: DegreeProgramme not found or already exists
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags: ["DegreeProgramme"]
+      summary: Delete DegreeProgramme.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: DegreeProgramme deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                  message:
+                    type: string
+        "503":
+          description: Failed to delete
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: DegreeProgramme not found
+          content:
+            application/json:
+              schema:
+                type: object
+  "/api/course/all":
+    get:
+      tags: ["Courses"]
+      summary: Get all Courses
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  name:
+                    type : string
+                  abbreviation:
+                    type : string
+                  semester:
+                    type : number
+                  is_fwpm:
+                    type : boolean
+                  lecturer_id:
+                    type: number
+                  degree_Programme:
+                    type: string
+                
+        "400":
+          description: Post not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+                    
+  "/api/course/FWPM":
+    get:
+      tags: ["Courses"]
+      summary: Get valid FWPM for my Degree
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  name:
+                    type : string
+                  abbreviation:
+                    type : string
+                  semester:
+                    type : number
+                  is_fwpm:
+                    type : boolean
+                  lecturer_id:
+                    type: number
+                  degree_Programme:
+                    type: string
+                
+        "400":
+          description: Post not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+  "/api/course/":
+    get:
+      tags: ["Courses"]
+      summary: Get all Courses for my DegreeProgramme
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  name:
+                    type : string
+                  abbreviation:
+                    type : string
+                  semester:
+                    type : number
+                  is_fwpm:
+                    type : boolean
+                  lecturer_id:
+                    type: number
+                  degree_Programme:
+                    type: string
+                
+        "400":
+          description: Post not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+    post:
+     tags: ["Courses"]
+     summary: Create new Course
+     requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  name:
+                    type : string
+                  abbreviation:
+                    type : string
+                  semester:
+                    type : number
+                  is_fwpm:
+                    type : boolean
+                  degree_Programme:
+                    type: string
+              example:
+                name: "Datenbanken"
+                abbreviation: "DB"
+                semester: 7
+                is_fwpm: false
+                degreeProgramme: "Wirtschaftsinformatik_the_second"
+        required: true
+     responses:
+        "201":
+          description: Course Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type : string
+                  abbreviation:
+                    type : string
+                  semester:
+                    type : number
+                  is_fwpm:
+                    type : boolean
+                  lecturer_id:
+                    type: number
+                  degree_Programme:
+                    type: string
+  "/api/course/{id}":
+    parameters:
+    - name: id 
+      in: path
+      description: ID of the Course
+      required: true
+      schema:
+        type: string
+    get:
+      tags: ["Courses"]
+      summary: Get Course Details.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successfull
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                 name:
+                  type: string
+                 abbreviation:
+                  type: string
+                 semester:
+                  type: number
+                 is_fwpm:
+                  type: number
+                 time_range:
+                  type: string
+                 day:
+                  type: string
+                 shortname:
+                  type: string
+
+        "400":
+          description: Update failed
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: DegreeProgramme not found or already exists
+          content:
+            application/json:
+              schema:
+                type: object
+ 
+  "/api/course":
+    parameters:
+    - name: course 
+      in: query
+      description: Name of the Course
+      required: true
+      schema:
+        type: string
+      example: "Datenbanken"
+    - name: degree
+      in: query
+      required: true
+      schema:
+        type: string
+      example: "Wirtschaftsinformatik"
+    put:
+      tags: ["Courses"]
+      summary: Update Course.
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type : string
+                abbreviation:
+                  type : string
+                semester:
+                  type : number
+                is_fwpm:
+                  type : boolean
+                degree_Programme:
+                  type: string
+        required: true
+      responses:
+        "200":
+          description: Update Successfull
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type : string
+                  abbreviation:
+                    type : string
+                  semester:
+                    type : number
+                  is_fwpm:
+                    type : boolean
+                  degree_Programme:
+                    type: string
+        "400":
+          description: Update failed
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Course not found or already exists
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags: ["Courses"]
+      summary: Delete Course.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Course deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                  message:
+                    type: string
+        "503":
+          description: Failed to delete
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Course not found
+          content:
+            application/json:
+              schema:
+                type: object
+             
+  "/api/lecture/":
+   get:
+      tags: ["Lecture"]
+      summary: Get all Lectures
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  time_range:
+                    type: string
+                  day:
+                    type : string
+                  course_id:
+                    type : string
+                  location_id:
+                    type : string
+                  lecturer_id:
+                    type: string
+
+   post:
+     tags: ["Lecture"]
+     summary: Create new Lecture
+     requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  time_range:
+                    type: string
+                  day:
+                    type : string
+                  course:
+                    type : string
+                  degree:
+                    type: string
+                  location:
+                    type : string
+                  lecturer:
+                    type: string
+            example:
+              time_range : "08:00-09:30"
+              day: "sunday"
+              course: "Datenbanken"
+              degree: "Wirtschaftsmathematik-Aktuarwissenschaften"
+              location: "B0.07"
+              lecturer: "OttRo"
+           
+        required: true
+     responses:
+        "201":
+          description: Lecture Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  surname:
+                    type : string
+                  name:
+                    type : string
+                  username:
+                    type : string
+                  password:
+                    type: string
+
+        "409":
+          description: Lecture already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+  "/api/lecture":
+    parameters:
+    - name: name 
+      in: query
+      description: Name of the Course
+      required: true
+      schema:
+        type: string
+    - name: day
+      in: query
+      description: Day of the lecture
+      required: true
+      schema:
+        type: string
+    - name: range
+      in: query
+      description: Timerange of the lecture
+      required: true
+      schema:
+        type: string
+    - name: lecturer
+      in: query
+      description: Lecturer of the lecture
+      required: true
+      schema:
+        type: string
+      
+    put:
+      tags: ["Lecture"]
+      summary: Update Lecture.
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  time_range:
+                    type : string
+                  day:
+                    type : string
+                  lecturer:
+                    type : string
+                  location:
+                    type: string
+                
+        required: true
+      responses:
+        "200":
+          description: Update Successfull
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  time_range:
+                    type : string
+                  day:
+                    type : string
+                  lecturer:
+                    type : string
+                  location:
+                    type: string
+        "400":
+          description: Update failed
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Lecturer not found or already exists
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags: ["Lecture"]
+      summary: Delete Lecture.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Lecturer deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                  message:
+                    type: string
+        "503":
+          description: Failed to delete
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Lecture not found
+          content:
+            application/json:
+              schema:
+                type: object
+  "/api/courseContent/all":
+   get:
+      tags: ["CourseContent"]
+      summary: Get all CourseContent
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  title:
+                    type : string
+                  text:
+                    type : string
+                  content_type:
+                    type : string
+                  url_path:
+                    type : string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  course_id:
+                    type: number
+  "/api/courseContent/":
+   post:
+     tags: ["CourseContent"]
+     summary: Create new CourseContent
+     requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  title:
+                    type : string
+                  text:
+                    type : string
+                  content_type:
+                    type : string
+                  url_path:
+                    type : string
+                  course:
+                    type: string
+                  degree:
+                    type: string
+        required: true
+     responses:
+        "201":
+          description: CourseContent Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type : string
+                  text:
+                    type : string
+                  content_type:
+                    type : string
+                  url_path:
+                    type : string
+                  course_id:
+                    type: number
+
+        "400":
+          description: No Course found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+  "/api/courseContent":
+    parameters:
+    - name: course 
+      in: query
+      description: ID of the Course
+      required: true
+      schema:
+        type: number
+
+    get:
+      tags: ["CourseContent"]
+      summary: Get Content for this Course
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  title:
+                    type : string
+                  text:
+                    type : string
+                  content_type:
+                    type : string
+                  url_path:
+                    type : string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  course_id:
+                    type: number
+        "400":
+          description: Post not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+                    
+  "/api/courseContent/id={id}":
+    parameters:
+    - name: id 
+      in: path
+      description: ID of the Content
+      required: true
+      schema:
+        type: string                   
+    put:
+      tags: ["CourseContent"]
+      summary: Update Content.
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  title:
+                    type : string
+                  text:
+                    type : string
+                  content_type:
+                    type : string
+                  url_path:
+                    type : string
+
+        required: true
+      responses:
+        "200":
+          description: Update Successfull
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type : string
+                  text:
+                    type : string
+                  content_type:
+                    type : string
+                  url_path:
+                    type : string
+        "400":
+          description: Update failed
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: CourseContent not found
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags: ["CourseContent"]
+      summary: Delete Content.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: CourseContent deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                  message:
+                    type: string
+        "503":
+          description: Failed to delete
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Content not found
+          content:
+            application/json:
+              schema:
+                type: object     
+         
+    
+  "/api/lecturer/":
+   get:
+      tags: ["Lecturer"]
+      summary: Get all Lecturer
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  title:
+                    type: string
+                  surname:
+                    type : string
+                  name:
+                    type : string
+                  username:
+                    type : string
+                  password:
+                    type: string
+                
+        "400":
+          description: Lecturer not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+   post:
+     tags: ["Lecturer"]
+     summary: Create new Lecturer
+     requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  title:
+                    type: string
+                  surname:
+                    type : string
+                  name:
+                    type : string
+                  username:
+                    type : string
+                  password:
+                    type: string
+        required: true
+     responses:
+        "201":
+          description: Lecturer Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  surname:
+                    type : string
+                  name:
+                    type : string
+                  username:
+                    type : string
+                  password:
+                    type: string
+
+        "409":
+          description: Lecturer already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+  "/api/lecturer":
+    parameters:
+    - name: current_surname 
+      in: query
+      description: Surname of the lecturer
+      required: true
+      schema:
+        type: string
+    - name: current_name
+      in: query
+      description: Name of the lecturer
+      required: true
+      schema:
+        type: string
+      
+    put:
+      tags: ["Lecturer"]
+      summary: Update Lecturer.
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  surname:
+                    type : string
+                  name:
+                    type : string
+                  username:
+                    type : string
+                  password:
+                    type: string
+                
+        required: true
+      responses:
+        "200":
+          description: Update Successfull
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  surname:
+                    type : string
+                  name:
+                    type : string
+                  username:
+                    type : string
+                  password:
+                    type: string
+        "400":
+          description: Update failed
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Lecturer not found or already exists
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags: ["Lecturer"]
+      summary: Delete Lecturer.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Lecturer deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                  message:
+                    type: string
+        "503":
+          description: Failed to delete
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Lecturer not found
+          content:
+            application/json:
+              schema:
+                type: object
+  "/api/student/all":
+   get:
+      tags: ["Student"]
+      summary: Get all Students
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  matrikel_nr:
+                    type: number
+                  surname:
+                    type : string
+                  name:
+                    type : string
+                  username:
+                    type : string
+                  password:
+                    type : string
+                  degree_id:
+                    type: number
+  "/api/student/":
+   get:
+      tags: ["Student"]
+      summary: My Information
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  matrikel_nr:
+                    type: number
+                  surname:
+                    type : string
+                  name:
+                    type : string
+                  username:
+                    type : string
+                  password:
+                    type : string
+                  degree_id:
+                    type: number
+                
+        "401":
+          description:  Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+   post:
+     tags: ["Student"]
+     summary: Create new Student
+     requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  matrikel_nr:
+                    type: number
+                  surname:
+                    type : string
+                  name:
+                    type : string
+                  username:
+                    type : string
+                  password:
+                    type : string
+                  degree_name:
+                    type: string
+        required: true
+     responses:
+        "201":
+          description: Student Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  matrikel_nr:
+                    type: number
+                  surname:
+                    type : string
+                  name:
+                    type : string
+                  username:
+                    type : string
+                  password:
+                    type : string
+                  degree_name:
+                    type: string
+
+        "404":
+          description: DegreeProgramme already exists or has no valid Faculty
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+  "/api/student/{matrikel_nr}":
+    parameters:
+    - name: matrikel_nr 
+      in: path
+      description: ID of the Student
+      required: true
+      schema:
+        type: number
+    put:
+      tags: ["Student"]
+      summary: Update Student.
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  surname:
+                    type : string
+                  name:
+                    type : string
+                  username:
+                    type : string
+                  password:
+                    type : string
+                
+        required: true
+      responses:
+        "200":
+          description: Update Successfull
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                 abbreviation:
+                  type: string
+                 semester_count:
+                  type: number
+                 faculty:
+                  type: string
+        "400":
+          description: Update failed
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Student not found or already exists
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags: ["Student"]
+      summary: Delete Student.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Student deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                  message:
+                    type: string
+        "503":
+          description: Failed to delete
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Student not found
+          content:
+            application/json:
+              schema:
+                type: object
+  "/api/announcement/all":
+   get:
+      tags: ["Announcement"]
+      summary: Get all Announcements
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  text:
+                    type : string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  course_id:
+                    type: number
+  "/api/announcement/":
+   get:
+      tags: ["Announcement"]
+      summary: Get all my Announcements
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  text:
+                    type : string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  course_id:
+                    type: number
+   post:
+     tags: ["Announcement"]
+     summary: Create new Announcement
+     security:
+        - bearerAuth: []
+     requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  title:
+                    type: string
+                  text:
+                    type : string
+                  course:
+                    type: string
+                  degree:
+                    type: string
+                    
+        required: true
+     responses:
+        "201":
+          description: Announcement Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  text:
+                    type : string
+                  course_name:
+                    type: string
+                  degree:
+                    type: string
+
+  "/api/announcement/{id}":
+    parameters:
+    - name: id 
+      in: path
+      description: ID of the Announcement
+      required: true
+      schema:
+        type: string
+    put:
+      tags: ["Announcement"]
+      summary: Update Announcement.
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  text:
+                    type : string
+                
+        required: true
+      responses:
+        "200":
+          description: Update Successfull
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  text:
+                    type : string
+        "400":
+          description: Update failed
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Announcement not found
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags: ["Announcement"]
+      summary: Delete Announcement.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Announcement deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                  message:
+                    type: string
+        "503":
+          description: Failed to delete
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Announcement not found
+          content:
+            application/json:
+              schema:
+                type: object  
+  "/api/enrol/all":
+   get:
+      tags: ["Enrol"]
+      summary: Get all Course Enrollment
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  StudentenMartrikelNr:
+                    type: number
+                  CourseId:
+                    type: number
+  "/api/enrol/":
+   get:
+      tags: ["Enrol"]
+      summary: Get my Course Enrollment
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  StudentenMartrikelNr:
+                    type: number
+                  CourseId:
+                    type: number
+                
+        "400":
+          description: Enrollment not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+   post:
+     tags: ["Enrol"]
+     summary: Create new Enrollment
+     requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  matrikel_nr:
+                    type: number
+                  course:
+                    type: string
+        required: true
+     responses:
+        "200":
+          description: Enrollment Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type : string
+                  abbreviation:
+                    type : string
+                  semester_count:
+                    type : number
+                  fakulty_id:
+                    type : number
+
+        "400":
+          description: Enrollment already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+  "/api/enrol/{name}":
+    parameters:
+    - name: name 
+      in: path
+      description: Name of the Course
+      required: true
+      schema:
+        type: string
+
+    delete:
+      tags: ["Enrol"]
+      summary: Delete Enrollment.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Enrollment deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                  message:
+                    type: string
+        "503":
+          description: Failed to delete
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Enrollment not found
+          content:
+            application/json:
+              schema:
+                type: object
+  "/api/location/buildings":
+   get:
+      tags: ["Location"]
+      summary: Get all Buildings
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+
+                
+        "400":
+          description: Post not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+ 
+  "/api/Location/{name}":
+    parameters:
+    - name: name 
+      in: path
+      description: ShortName
+      required: true
+      schema:
+        type: string
+    get:
+      tags: ["Location"]
+      summary: Get Geometry for Location Shortname
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Post not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                  message:
+                    type: string
+components:
+  securitySchemes:
+    bearerAuth:            
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

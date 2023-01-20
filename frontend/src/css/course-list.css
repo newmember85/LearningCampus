@@ -1,0 +1,139 @@
+.course-list{
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    margin-top: 80px;
+}
+
+@media only screen and (max-width: 800px) {
+    .course-list{
+      margin-top: 60px;
+    }
+}
+
+.course-list section{
+    width: 100%;
+    padding: 5%;
+}
+
+@media only screen and (min-width: 800px) {
+    .course-list section{
+        padding: 3%;
+    }
+}
+
+.course-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(18rem,1fr));
+    column-gap: 2rem;
+    row-gap: 2rem;
+    list-style: none;
+}
+
+.course-card{
+    background-color: white;
+    position:relative;
+    border-radius: 30px;
+    overflow: hidden;
+    border: 3px solid white;
+    transition: all 0.2s linear;
+}
+
+.course-card:hover {
+    border: 3px solid orange;
+    filter: drop-shadow(0 0 0.75rem orange);
+    transform: scale(1.05);
+    transition: all 0.15s linear;
+    transition: transform 0.3 ease-in;
+}
+
+.course-card figure{
+    width: 100%;
+    max-height: 6rem;
+    overflow: hidden;
+}
+
+.course-card img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.course-card .dropdown button.btn, .course-card .dropdown button.btn-primary{
+    background: white;
+    border: none;
+    padding: unset;
+}
+
+.course-card .dropdown{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+.course-card .dropdown button{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.course-card .dropdown button.btn:hover{
+    background: rgb(222,222,222);
+}
+
+.course-card .dropdown button::after{
+    display: none;
+}
+
+.course-card .dropdown-menu a{
+    font-size: 0.9rem;
+}
+
+.course-card button > i {
+    color: black;
+}
+
+.course-card article {
+    padding: 6px 15px 8px 15px;
+}
+
+.course-card .flex-container{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.course-card article i {
+    width: 20%;
+    font-size: 1.5rem;
+    display: none;
+    width: 0;
+    color: #9a9a9a;
+}
+
+.course-card.added article i {
+    display: inline;
+    width: unset;
+}
+
+.course-card h2, .course-list p{
+    margin-bottom: 0;
+    text-align: left;
+}
+
+.course-card h2 {
+    font-size: 1.3rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bg-dimmer{
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    position: fixed;
+}

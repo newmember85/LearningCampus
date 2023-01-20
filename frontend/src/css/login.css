@@ -1,0 +1,130 @@
+.login-body{
+  text-align: center;
+}
+
+.login-body header{
+  margin: 5rem 0;
+  padding: 2rem 0;
+}
+
+.login-body h1{
+  font-weight: 700;
+  font-size: 5rem;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+  .login {
+    background: #fff;
+    border-radius: 0.6rem;
+    overflow: hidden;
+    max-width: 24rem;
+    filter: drop-shadow(10px 10px 8px rgba(0, 0, 0, .2));
+    margin: auto;
+  }
+  
+  .login h2 {
+    font-size: 2rem;
+    margin-top: unset;
+    margin: 1rem 0 3rem 0;
+  }
+  
+  
+  .credentials-container{
+    width: 100%;
+  }
+  
+  
+  .credentials-container label, .credentials-container input{
+    width: 70%;
+    margin: 0 15%;
+  }
+  
+  .credentials-container label{
+    text-align: start;
+    width: 100%;
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+    color:gray;
+  }
+  
+  .credentials-container input{
+    border:none;
+    background:unset;
+    border-bottom:1px solid lightgray;
+    font-size: 1.2rem;
+    color: dimgray;
+    transition: 0.2s all;
+  }
+  
+  .credentials-container input:focus{
+    outline:none;
+    color: black;
+    border-bottom: 1px solid gray;
+    transition: 0.2s all;
+  }
+  
+  .credentials-container input{
+    margin-bottom: 1.8rem;
+  }
+  
+  .password-container input{
+    margin:unset;
+  }
+  
+  .show-password{
+    width: 70%;
+    margin: 0.2rem 15% 0 15%;
+    display: flex;
+  }
+  
+  .show-password label, .show-password input{
+    width: unset;
+    margin: unset;
+  }
+  
+  .show-password input{
+    width: 0.8rem;
+    margin: 0.2rem 0 0 0.5rem;
+  }
+  
+  
+  .login button{
+    width: 60%;
+    margin: 0 20%;
+    border: 2px solid orange;
+    background: white;
+    color: dimgray;
+    font-size: 1.3rem;
+    border-radius: 40px;
+    margin: 3.5rem 0 1.5rem 0;
+    font-weight: bold;
+    padding: 0.8rem 0;
+    cursor: pointer;
+    transition: 0.5s all;
+  }
+  
+  .login button:hover{
+    background:orange;
+    color:rgb(20, 20, 20);
+    transition: 0.5s all;
+  }
+  
+  .login p{
+    color: red;
+    margin-bottom: 1rem;
+  }
+  
+  #checkbox{
+    accent-color: orange;
+    opacity: 0.5;
+  }
+  
+  #checkbox:checked, #checkbox:hover{
+    opacity: 1;
+    cursor: pointer;
+  }

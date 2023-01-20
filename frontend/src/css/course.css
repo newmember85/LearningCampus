@@ -1,0 +1,305 @@
+#course-nav {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+#course-nav > a > i {
+    color: white;
+    font-size: 1.1rem;
+    margin-right: 5px;
+    opacity: 0.7;
+}
+
+#course-nav > a{
+    color: white;
+    font-size: 1.5rem;
+    padding: 8px 20px 16px 8px;
+    border-radius: 0 0 35px 0;
+    background-color: #252525;
+}
+
+#course-nav > a:hover{
+    color: orange;
+}
+
+#course-nav > #nav-news{    /*#nav-news styling in navigation.css*/
+    margin: 15px 20px 0 0;
+}
+
+@media only screen and (max-width: 800px) {
+    #course-nav {
+        display: flex;
+        justify-content: space-evenly;
+        background: #252525;
+        height: 60px;
+    }
+
+    #course-nav > a, #course-nav > #nav-news{
+        width: 50%;
+        text-align: center;
+        height: 100%;
+        align-content: center;
+    }
+
+    #course-nav > #nav-news{
+        margin: unset;
+    }
+
+    #course-nav > #nav-news.indicate{
+        background: unset;
+    }
+
+    #course-nav > #nav-news.indicate > i{
+        color: orange;
+    }
+    
+    #course-nav > a > i {
+        color: white;
+        font-size: 1.1rem;
+        margin-right: 5px;
+        opacity: 0.7;
+    }
+    
+    #course-nav > a{
+        color: white;
+        font-size: 1.5rem;
+        padding: unset;
+        padding-top:8px;
+        border-radius: unset;
+        background-color: unset;
+    }
+    
+    #course-nav > a:hover{
+        color: orange;
+    }
+}
+
+.bg-dimmer-course{
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    position: fixed;
+    top:0;
+    z-index: -999;
+}
+
+.course{
+    width: 80%;
+    margin: auto;
+    margin-top: 80px;
+    height: auto;
+    background: #252525;
+    border-radius: 35px;
+    filter: drop-shadow(0 0 50px black);
+    max-width: 1350px;
+    overflow: hidden;
+    border-bottom: 3px solid orange;
+}
+
+.course-headline{
+    text-align: center;
+}
+
+.course > .infobox {
+    background: white;
+    padding: 30px 7% 20px 7%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    /*align-items: center;*/
+    justify-content: space-between;
+    border-bottom: 5px solid orange;
+    filter: drop-shadow(0 5px 10px rgba(255, 165, 0, 0.3));
+}
+
+.course > .infobox > aside, .course > .infobox > article{
+    max-width: 40%;
+    height: 100%;
+    order: 1;
+}
+
+.course > .infobox > article{
+    max-width: unset;
+    order: 2;
+}
+
+.course > .infobox > article > h1{
+    font-size: 2.4rem;
+}
+
+.course-actions{
+    padding: 10px 5% 0 5%;
+    display: flex;
+    justify-content: space-around;
+    column-gap: 10px;
+    margin-bottom: 10px;
+}
+
+.course-actions > button{
+    padding: 8px 14px;
+    border-radius: 25px;
+    background-color: transparent;
+    transition: all 0.2s;
+    color: black;
+}
+
+.course-actions > button:hover{
+    background-color: orange;
+    transition: all 0.3s ease-in;
+}
+
+.course-actions > button > i{
+    margin-right: 5px;
+}
+
+.course > .infobox > aside td:first-child{
+    padding-right: 10px;
+}
+
+.course > .infobox > aside > table{
+    display: unset;
+    font-size: 1.1rem;
+}
+
+@media only screen and (max-width: 1080px) {
+
+    .course > .infobox{
+        flex-direction: column;
+    }
+
+    .course > .infobox >article > h1{
+        order:1;
+        width: 100%;
+        margin-bottom: 10px;
+        text-align: left;
+    }
+
+    .course > .infobox > aside{
+        max-width: 100%;
+        width: 100%;
+        order: 2;
+    }
+
+    .course > .infobox > aside > table{
+        column-count: 2;
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    .course-actions{
+        padding: 0;
+        justify-content: flex-start;
+    }
+
+    .course-actions > button{
+        padding: 0;
+    }
+
+    .course-actions > button:hover{
+        background-color: unset;
+        text-decoration: underline;
+        color: darkorange;
+    }
+}
+
+.course .content-box {
+    padding: 30px;
+}
+
+
+@media only screen and (max-width: 800px) {
+
+    .course{
+      margin: 0;
+      margin-top: 60px;
+      border-radius: unset;
+      width: 100%;
+      filter: none;
+    }
+
+    .course > .infobox > article > h1{
+        width: auto;
+        font-size: 1.8rem;
+        text-align: right;
+        margin-top: 10px;
+    }
+
+    .course-actions{
+        justify-content: flex-end;
+    }
+
+    .course .content-box {
+        padding: 20px 0px;
+    }
+    
+}
+
+
+@media only screen and (max-width: 420px) {
+    .course > .infobox > article > h1{  
+        overflow-wrap: break-word;
+    }
+}
+
+.course-chapter{
+    background: white;
+    width: 100%;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.course-chapter > h2{
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.course-chapter > p, .course-chapter > a {
+    margin-bottom: 10px;
+}
+
+a.course-file{
+    padding: 4px 15px;
+    text-decoration: underline;
+    display: block;
+}
+
+a.course-file:hover{
+    text-decoration: underline;
+    color: darkorange;
+}
+
+a.course-file > i {
+    color: orange;
+    margin-right: 10px;
+}
+
+
+.course-chapter:last-child{
+    margin-bottom: unset;
+}
+
+.leaflet-container{
+    width: 100%;
+    height: 300px;
+    position: unset;
+    border-radius: 15px;
+  }
+
+.leaflet-container strong{
+    font-size: 1rem;
+}
+
+.leaflet-container span{
+    margin-right: 10px;
+}
+
+.leaflet-marker-pane{
+filter: hue-rotate(160deg);
+}
